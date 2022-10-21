@@ -15,18 +15,4 @@ router.post('/sign-up', async function (req, res, next) {
   res.json((result = {pwd}))
 })
 
-router.post('/sign-in', async function (req, res, next) {
-  // var findUser= await usersModel.findOne({nni=req.body.nni})
-  var findUser = 'C37457'
-  var result = false
-  //if(findUser){
-  if (req.body.user === findUser) {
-    var password = req.body.password
-    result = password === 'test' ? true : false
-    //result = bcrypt.compareSync(password,findUser.password)?true:false
-  }
-
-  res.json({result, findUser})
-})
-
 module.exports = router
