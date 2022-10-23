@@ -15,6 +15,4 @@ router.post('/sign-up', async function (req, res, next) {
   res.json((result = {pwd}))
 })
 
-
-
 module.exports = router
