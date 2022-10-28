@@ -1,11 +1,11 @@
 const mongoose=require('mongoose')
 
 const localisationSchema=mongoose.Schema({
-    cnpe:String,
-    tranche:String,
-    systeme:String,
-    repere:Number,
-    bigramme:String,
+    Cnpe:String,
+    Tranche:String,
+    Systeme:String,
+    Numero:Number,
+    Bigramme:String,
  })
 
  const brideSchema=mongoose.Schema({
@@ -48,7 +48,8 @@ const localisationSchema=mongoose.Schema({
  })
 
  const categorie_0Schema=mongoose.Schema({
-    Tc:Number,
+   check:Boolean, 
+   Tc:Number,
     Pc:Number,
     Sbride:Number,
     Sboul:Number
@@ -106,12 +107,17 @@ const localisationSchema=mongoose.Schema({
      bride:brideSchema,
      boulon:boulonSchema,
      joint:jointSchema,
-     chargement:{categorie_0Schema,categorie_2Schema,categorie_3Schema,categorie_4Schema,categorie_EHSchema}
+     chargement:{
+      categorie_0:categorie_0Schema,
+      categorie_2:categorie_2Schema,
+      categorie_3:categorie_3Schema,
+      categorie_4:categorie_4Schema,
+      categorie_EH:categorie_EHSchema}
    
  })
 
  const coupleSchema=mongoose.Schema({
-    Cs:Number,
+    Couple:Number,
     FSmax:Number,
     FSmin:Number
  })
@@ -127,6 +133,7 @@ const localisationSchema=mongoose.Schema({
     hd:Number,
     ht:Number,
     hg:Number,
+    R:Number,
     C0:Number
  })
 
@@ -207,4 +214,4 @@ const etudesSchema=mongoose.Schema({
 
 const etudesModel=mongoose.model('etudes',etudesSchema)
 
-module.exports=usersModel
+module.exports=etudesModel
