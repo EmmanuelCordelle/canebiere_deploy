@@ -26,13 +26,14 @@ const localisationSchema=mongoose.Schema({
  const boulonSchema=mongoose.Schema({
     Incertitude:Number,
     Coef_frottement:Number,
+    Filetage:String,
     Dn:Number,
     Pas:Number,
     Dpe:Number,
     Nombre:Number,
     Materiau:String,
     Ec_boul:Number,
-    Sycboul:Number,
+    Syc_boul:Number,
     Sc_boul:Number
 
  })
@@ -124,6 +125,8 @@ const localisationSchema=mongoose.Schema({
 
  const result_jointSchema=mongoose.Schema({
     b0:Number,
+    Dje:Number,
+    Dji:Number,
     b:Number,
     Dj:Number,
     Fj:Number
@@ -137,14 +140,52 @@ const localisationSchema=mongoose.Schema({
     C0:Number
  })
 
- const result_effortSchema=mongoose.Schema({
+//  const result_effortSchema=mongoose.Schema({
+//     Peq:Number,
+//     FF:Number,
+//     FM:Number,
+//     FS:Number
+//  })
+
+//  const result_momentSchema=mongoose.Schema({
+//     HD:Number,
+//     HD_ext:Number,
+//     HT:Number,
+//     HT_ext:Number,
+//     HG:Number,
+//     MD:Number,
+//     MD_ext:Number,
+//     MT:Number,
+//     MT_ext:Number,
+//     MG:Number,
+//     M0:Number,
+//  })
+
+
+
+//  const result_contrainteSchema=mongoose.Schema({
+//     SH:Number,
+//     critere_SH:Number,
+//     ratio_SH:Number,
+//     SR:Number,
+//     critere_SR:Number,
+//     ratio_SR:Number,
+//     ST:Number,
+//     critere_ST:Number,
+//     ratio_ST:Number,
+//     SMAX:Number,
+//     critere_SMAX:Number,
+//     ratio_SMAX:Number,
+//  })
+
+ const result_categorieSchema=mongoose.Schema({
+   // effort:result_effortSchema,
+    Contrainte_joint:Number,
     Peq:Number,
     FF:Number,
     FM:Number,
-    FS:Number
- })
-
- const result_momentSchema=mongoose.Schema({
+    FS:Number,
+   // moment:result_momentSchema,
     HD:Number,
     HD_ext:Number,
     HT:Number,
@@ -156,11 +197,11 @@ const localisationSchema=mongoose.Schema({
     MT_ext:Number,
     MG:Number,
     M0:Number,
- })
-
-
-
- const result_contrainteSchema=mongoose.Schema({
+    Sa:Number,
+    ratio_boulon:Number,
+  //  contrainte:result_contrainteSchema,
+    Sjoint:Number,
+    ratio_joint:Number,
     SH:Number,
     critere_SH:Number,
     ratio_SH:Number,
@@ -173,16 +214,6 @@ const localisationSchema=mongoose.Schema({
     SMAX:Number,
     critere_SMAX:Number,
     ratio_SMAX:Number,
- })
-
- const result_categorieSchema=mongoose.Schema({
-    effort:result_effortSchema,
-    moment:result_momentSchema,
-    Sa:Number,
-    ratio_boulon:Number,
-    contrainte:result_contrainteSchema,
-    Sjoint:Number,
-    ratio_joint:Number
 
  })
 
@@ -199,7 +230,10 @@ const localisationSchema=mongoose.Schema({
     categorie_3:result_categorieSchema,
     categorie_4:result_categorieSchema,
     categorie_EH:result_categorieSchema,
-    MA:Number
+    Ma:Number,
+    Sb:Number,
+    Sa_assise:Number,
+    Contrainte_joint_assise:Number
  })
 
  //mettre une date aussi
