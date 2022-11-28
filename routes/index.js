@@ -1,3 +1,4 @@
+const {response} = require('express')
 var express = require('express')
 var router = express.Router()
 var etudesModel = require('../models/etudes')
@@ -58,6 +59,47 @@ router.post('/etudeByID', async function (req, res, next) {
   found ? (result = true) : result
 
   res.json({result, etude: found})
+})
+
+router.post('/search', async function (req, res, next) {
+  console.log('requete search ok')
+
+  let result = false
+  let datas = req.body
+  console.log(datas)
+
+  //***** Securisation des données de recherche: null si vide */
+  let site = datas.site ? datas.site : null
+  let tranche = datas.tranche ? parseInt(datas.tranche) : null
+  let systeme = datas.systeme ? datas.systeme : null
+  let repere = datas.repere ? parseInt(datas.repere) : null
+  let bigramme = datas.bigramme ? datas.bigramme : null
+
+  let found = []
+  let response = null
+
+  if (site === null && tranche === null && systeme === null && repere === null && bigramme === null) {
+    console.log('find all')
+    response = await etudesModel.find()
+  } else {
+    response = await etudesModel.find({
+      'donnee.localisation.Cnpe': site !== null ? site : {$exists: true},
+      'donnee.localisation.Tranche': tranche !== null ? tranche : {$exists: true},
+      'donnee.localisation.Systeme': systeme !== null ? systeme : {$exists: true},
+      'donnee.localisation.Numero': repere !== null ? repere : {$exists: true},
+      'donnee.localisation.Bigramme': bigramme !== null ? bigramme : {$exists: true}
+    })
+  }
+
+  if (response) {
+    result = true
+
+    for (let etude of response) {
+      found.push(etude.donnee.localisation)
+    }
+  }
+
+  res.json({result, etudes: found})
 })
 
 router.post('/savePDF', async function (req, res, next) {
