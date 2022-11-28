@@ -38,7 +38,7 @@ router.post('/sign-in', async function (req, res, next) {
     const password = req.body.password
     result = bcrypt.compareSync(password, findUser.password) ? true : false
     if (!result) {
-      console.log('mot de passe incirrect')
+      console.log('mot de passe incorrect')
       messageError = 'Mot de passe incorrect'
     }
   } else {
