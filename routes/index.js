@@ -45,16 +45,18 @@ router.post('/mes_etudes', async function (req, res, next) {
   let found=await etudesModel.find({user:req.body.user})
   found? result=true:result
 
-  console.log(found)
 
   let found_localisation=[]
+  let i=1
 
   for(let etude of found){
-    found_localisation.push({id:etude.id,localisation:etude.donnee.localisation})
+
+    found_localisation.push(etude.donnee.localisation)
+
   }
-  console.log(found_localisation)
-  
-  res.json(result,found_localisation )
+
+ 
+  res.json({result,found_localisation} )
 })
 
 
