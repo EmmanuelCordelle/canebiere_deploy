@@ -6,6 +6,7 @@ const localisationSchema=mongoose.Schema({
     Systeme:String,
     Numero:Number,
     Bigramme:String,
+    Indice:Number
  })
 
  const brideSchema=mongoose.Schema({

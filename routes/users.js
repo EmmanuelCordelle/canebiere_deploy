@@ -30,23 +30,21 @@ var router = express.Router()
 router.post('/sign-in', async function (req, res, next) {
   let result = false
   let messageError = null
-  let token, type
-  console.log(req.body)
   const findUser = await usersModel.findOne({Nni: req.body.Nni})
 
   if (findUser) {
     const password = req.body.password
     result = bcrypt.compareSync(password, findUser.password) ? true : false
     if (!result) {
-      console.log('mot de passe incorrect')
-      messageError = 'Mot de passe incorrect'
+       messageError = 'Mot de passe incorrect'
     }
-  } else {
-    console.log('test')
-    messageError = 'Nni inconnu'
+  } 
+  else {
+    messageError = 'Utilisateur inconnu'
   }
+  result?res.json({result, findUser:findUser.token, messageError})
+  :res.json({result, messageError})
 
-  res.json({result, findUser, messageError})
 })
 
 module.exports = router

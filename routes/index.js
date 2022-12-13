@@ -19,21 +19,77 @@ router.post('/sign-up', async function (req, res, next) {
 
 router.post('/save', async function (req, res, next) {
   let datas = await JSON.parse(req.body.datas)
-  let result = await JSON.parse(req.body.result)
+  let dataResult = await JSON.parse(req.body.result)
   let user = req.body.user
 
-  let newEtude = new etudesModel({
-    user: user,
-    donnee: datas,
-    result: result
+  let result=false
+
+  let response = await etudesModel.find({
+    'donnee.localisation.Cnpe': datas.localisation.Cnpe,
+    'donnee.localisation.Tranche': datas.localisation.Tranche,
+    'donnee.localisation.Systeme': datas.localisation.Systeme,
+    'donnee.localisation.Numero': datas.localisation.Numero,
+    'donnee.localisation.Bigramme': datas.localisation.Bigramme
+  })
+  console.log(response)
+
+  //si aucune étude trouvée on sauvegarde
+    if(response.length===0){
+    datas.localisation['Indice']=0  
+    let newEtude = new etudesModel({
+      user: user,
+      donnee: datas,
+      result: dataResult
+    })
+  
+    let etudeSaved = await newEtude.save()
+    result=true
+  }
+  
+  res.json(result)
+  
+})
+
+
+// route d'ajout d'un nouvel indice d'une étude
+router.post('/save-update', async function (req, res, next) {
+
+   let datas = await JSON.parse(req.body.datas)
+   let dataResult = await JSON.parse(req.body.result)
+   let user = req.body.user
+
+   let result=false
+
+  let response = await etudesModel.find({
+    'donnee.localisation.Cnpe': datas.localisation.Cnpe,
+    'donnee.localisation.Tranche': datas.localisation.Tranche,
+    'donnee.localisation.Systeme': datas.localisation.Systeme,
+    'donnee.localisation.Numero': datas.localisation.Numero,
+    'donnee.localisation.Bigramme': datas.localisation.Bigramme
   })
 
-  let etudeSaved = await newEtude.save()
+  if(response){
+    datas.localisation['Indice']=response.length  
+    let newEtude = new etudesModel({
+      user: user,
+      donnee: datas,
+      result: dataResult
+    })
+  
+    let etudeSaved = await newEtude.save()
+    result=true
+  }
 
-  res.json((result = 'ok'))
+  
+  res.json(result)
 })
+
+
+
+
 router.post('/mes_etudes', async function (req, res, next) {
   console.log('requet ok')
+  
 
   let result = false
   let response = await etudesModel.find({user: req.body.user})
@@ -42,6 +98,7 @@ router.post('/mes_etudes', async function (req, res, next) {
   let found = []
 
   for (let etude of response) {
+    console.log(etude)
     found.push(etude.donnee.localisation)
   }
   console.log('found :', found)
@@ -95,6 +152,7 @@ router.post('/search', async function (req, res, next) {
     result = true
 
     for (let etude of response) {
+      console.log(etude)
       found.push(etude.donnee.localisation)
     }
   }
